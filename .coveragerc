@@ -1,0 +1,4 @@
+[run]
+include = mempass/*
+omit = mempass/tests/*
+branch = 1

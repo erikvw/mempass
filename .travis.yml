@@ -1,0 +1,25 @@
+language: python
+
+dist: xenial
+
+sudo: true
+
+install:
+- pip install --upgrade pip
+- pip install flake8 coverage codecov tox-travis
+
+before_script:
+- flake8 mempass
+
+script:
+- coverage run -m tox
+
+after_success:
+- codecov
+
+matrix:
+  include:
+    - python: 3.6
+      env: TOXENV=py36
+    - python: 3.7
+      env: TOXENV=py37
