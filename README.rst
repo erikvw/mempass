@@ -1,6 +1,7 @@
 |pypi| |travis| |codecov| |downloads|
 
-# Mempass
+Mempass
+-------
 
 Simple memorizable password generator
 
@@ -13,8 +14,8 @@ Adapted from https://github.com/jesterpm/bin/blob/master/mkpasswd
 .. |pypi| image:: https://img.shields.io/pypi/v/mempass.svg
     :target: https://pypi.python.org/pypi/mempass
     
-.. |travis| image:: https://travis-ci.org/erikvw/mempass.svg?branch=develop
-    :target: https://travis-ci.org/erikvw/mempass
+.. |travis| image:: https://travis-ci.com/erikvw/mempass.svg?branch=develop
+    :target: https://travis-ci.com/erikvw/mempass
     
 .. |codecov| image:: https://codecov.io/gh/erikvw/mempass/branch/develop/graph/badge.svg
   :target: https://codecov.io/gh/erikvw/mempass
