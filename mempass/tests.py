@@ -1,9 +1,10 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-from unittest.case import TestCase
 from mempass.command_line import main
-from .password_generator import PasswordGenerator, mkpassword
+from mempass.password_generator import PasswordGenerator, mkpassword
+from unittest import mock
+from unittest.case import TestCase
 
 
 class TestUser(TestCase):
@@ -26,4 +27,5 @@ class TestUser(TestCase):
         self.assertEqual(len(password.split(" ")), 4)
 
     def test_basic(self):
-        main(4)
+        with mock.patch("sys.argv", ["mempass", 4]):
+            main()

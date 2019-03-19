@@ -44,8 +44,7 @@ class PasswordGenerator:
     def results(self):
         score = strength_score.get(self._results.get("score"))
         warning = self._results.get("feedback").get("warning")
-        suggestions = " ".join(self._results.get(
-            "feedback").get("suggestions")).strip()
+        suggestions = " ".join(self._results.get("feedback").get("suggestions")).strip()
         return dict(score=score, warning=warning, suggestions=suggestions)
 
     def _read_file(self, filename):
@@ -64,8 +63,8 @@ def mkpassword(nwords, verbose=None):
         p = sys.stderr.write
         p(f"password: {password}\n")
         p(f"score: {pwgen.results.get('score')}\n")
-        warning = pwgen.results.get('warning')
-        suggestions = pwgen.results.get('suggestions')
+        warning = pwgen.results.get("warning")
+        suggestions = pwgen.results.get("suggestions")
         if warning:
             warn(f"Warning: {warning}\n")
         if suggestions:

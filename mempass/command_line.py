@@ -7,7 +7,6 @@ from mempass import mkpassword
 
 
 def main():
-    print(sys.argv)
     try:
         nwords = int(sys.argv[1])
     except IndexError:
