@@ -1,6 +1,7 @@
 |pypi| |travis| |codecov| |downloads|
 
-# Mempass
+Mempass
+-------
 
 Simple memorizable password generator
 
