@@ -33,7 +33,9 @@ setup(
     install_requires=[
             'zxcvbn',
     ],
-    scripts=['bin/mempass'],
+    entry_points={
+        'console_scripts': ['mempass=mempass.command_line:main'],
+    },
     classifiers=[
         'Environment :: Web Environment',
         'Intended Audience :: Developers',

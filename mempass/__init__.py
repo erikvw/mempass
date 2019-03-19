@@ -1,5 +1,4 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-import sys
 
-from .mempass import PasswordGenerator, Mempass  # noqa
+from .password_generator import PasswordGenerator, mkpassword  # noqa

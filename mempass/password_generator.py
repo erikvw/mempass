@@ -5,8 +5,10 @@
 
 import itertools
 import os
+import sys
 
 from secrets import choice
+from warnings import warn
 from zxcvbn import zxcvbn
 
 
@@ -53,3 +55,19 @@ class PasswordGenerator:
             if len(line.split()[0]) < self.max_wordlength
             and line.split()[0].lower() == line.split()[0]
         ]
+
+
+def mkpassword(nwords, verbose=None):
+    pwgen = PasswordGenerator(nwords=nwords)
+    password = pwgen.get_password()
+    if verbose:
+        p = sys.stderr.write
+        p(f"password: {password}\n")
+        p(f"score: {pwgen.results.get('score')}\n")
+        warning = pwgen.results.get('warning')
+        suggestions = pwgen.results.get('suggestions')
+        if warning:
+            warn(f"Warning: {warning}\n")
+        if suggestions:
+            p(f"{suggestions}\n")
+    return password

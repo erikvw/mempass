@@ -3,16 +3,17 @@
 
 import sys
 
-from mempass import Mempass
+from mempass import mkpassword
 
 
-def main(argv):
+def main():
+    print(sys.argv)
     try:
-        nwords = int(argv[1])
+        nwords = int(sys.argv[1])
     except IndexError:
-        return usage(argv[0])
+        return usage(sys.argv[0])
     else:
-        Mempass(nwords)
+        mkpassword(nwords, verbose=True)
     return 0
 
 
@@ -23,7 +24,3 @@ def usage(argv0):
     p("\nRecommended:\n")
     p("    %s 5\n" % argv0)
     return 1
-
-
-if __name__ == "__main__":
-    sys.exit(main(sys.argv))
