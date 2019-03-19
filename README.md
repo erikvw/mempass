@@ -1,2 +1,0 @@
-# passwd
-Simple password generator
