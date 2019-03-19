@@ -1,0 +1,29 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+import sys
+
+from mempass import Mempass
+
+
+def main(argv):
+    try:
+        nwords = int(argv[1])
+    except IndexError:
+        return usage(argv[0])
+    else:
+        Mempass(nwords)
+    return 0
+
+
+def usage(argv0):
+    p = sys.stderr.write
+    p("Usage: %s nwords [nbits]\n" % argv0)
+    p("Generates a password of nwords words")
+    p("\nRecommended:\n")
+    p("    %s 5\n" % argv0)
+    return 1
+
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv))

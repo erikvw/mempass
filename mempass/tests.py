@@ -1,6 +1,9 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
 from unittest.case import TestCase
 
-from mempass import main, usage, PasswordGenerator
+from mempass import PasswordGenerator, mkpassword
 
 
 class TestUser(TestCase):
@@ -19,10 +22,10 @@ class TestUser(TestCase):
         self.assertIn("Strong", pwgen.results.get("score"))
 
     def test_make_password_main(self):
-        self.assertEqual(main(["mkpassword.py", 4]), 0)
+        self.assertEqual(mkpassword(4), 0)
 
     def test_make_password_main2(self):
-        self.assertEqual(main(["mkpassword.py", 0]), 0)
+        self.assertEqual(mkpassword(0), 0)
 
-    def test_make_password_usage(self):
-        self.assertTrue(usage("mkpassword.py"))
+    def test_make_password_value(self):
+        self.assertRaises(ValueError, mkpassword, "blah")

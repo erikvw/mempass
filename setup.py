@@ -33,6 +33,7 @@ setup(
     install_requires=[
             'zxcvbn',
     ],
+    scripts=['bin/mempass'],
     classifiers=[
         'Environment :: Web Environment',
         'Intended Audience :: Developers',

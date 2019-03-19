@@ -1,89 +1,37 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-"""Generate a random, memorizable password: http://xkcd.com/936/
-
-Adapted from https://github.com/jesterpm/bin/blob/master/mkpasswd
+"""Adapted from https://github.com/jesterpm/bin/blob/master/mkpasswd
 """
 
-import itertools
-import os
 import sys
 
-from secrets import choice
-from zxcvbn import zxcvbn
+from warnings import warn
 
-strength_score = {
-    0: "Very weak (0 out of 4)",
-    1: "Weak (1 out of 4)",
-    2: "Poor (2 out of 4)",
-    3: "Moderate (3 out of 4)",
-    4: "Strong! (4)",
-}
+from .password_generator import PasswordGenerator
 
 
-class PasswordGenerator:
+class Mempass:
 
-    filename = os.path.join("/usr", "share", "dict", "words")
-    nwords = 3
-    max_wordlength = 9
+    def __init__(self, nwords=None, verbose=None):
+        self.password = None
+        self.score = None
+        self.warning = None
+        self.verbose = True if verbose is None else False
+        self.mkpassword(nwords or 5)
 
-    def __init__(self, nwords=None, max_wordlength=None, filename=None, **kwargs):
-        self._results = None
-        self.filename = filename or self.filename
-        self.nwords = nwords or self.nwords
-        self.max_wordlength = max_wordlength or self.max_wordlength
-        self.wordlist = self._read_file(self.filename)
-
-    def get_password(self):
-        password = " ".join(choice(self.wordlist) for _ in range(self.nwords))
-        self._results = zxcvbn(password)
-        self._results["password"] = None
-        return password
-
-    @property
-    def results(self):
-        score = strength_score.get(self._results.get("score"))
-        warning = self._results.get("feedback").get("warning")
-        suggestions = " ".join(self._results.get("feedback").get("suggestions")).strip()
-        return dict(score=score, warning=warning, suggestions=suggestions)
-
-    def _read_file(self, filename):
-        return [
-            line.split()[0]
-            for line in itertools.islice(open(filename), 0, None)
-            if len(line.split()[0]) < self.max_wordlength
-            and line.split()[0].lower() == line.split()[0]
-        ]
-
-
-def main(argv):
-    try:
-        nwords = int(argv[1])
-    except IndexError:
-        return usage(argv[0])
-    pwgen = PasswordGenerator(nwords=nwords)
-    password = pwgen.get_password()
-    score = pwgen.results.get("score")
-    warning = pwgen.results.get("warning")
-    suggestions = pwgen.results.get("suggestions")
-    p = sys.stderr.write
-    p(f"password: {password}\n")
-    p(f"score: {score}\n")
-    if warning:
-        p(f"Warning: {warning}\n")
-    if suggestions:
-        p(f"{suggestions}\n")
-    return 0
-
-
-def usage(argv0):
-    p = sys.stderr.write
-    p("Usage: %s nwords [nbits]\n" % argv0)
-    p("Generates a password of nwords words")
-    p("\nRecommended:\n")
-    p("    %s 5\n" % argv0)
-    return 1
-
-
-if __name__ == "__main__":
-    sys.exit(main(sys.argv))
+    def mkpassword(self, nwords):
+        nwords = int(nwords)
+        pwgen = PasswordGenerator(nwords=nwords)
+        self.password = pwgen.get_password()
+        self.score = pwgen.results.get("score")
+        self.warning = pwgen.results.get("warning")
+        self.suggestions = pwgen.results.get("suggestions")
+        if self.verbose:
+            p = sys.stderr.write
+            p(f"password: {self.password}\n")
+            p(f"score: {self.score}\n")
+            if self.warning:
+                warn(f"Warning: {self.warning}\n")
+            if self.suggestions:
+                p(f"{self.suggestions}\n")
+        return None
