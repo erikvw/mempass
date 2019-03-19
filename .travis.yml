@@ -1,19 +1,8 @@
 language: python
 
-python:
-- 3.6
-- 3.7
-
 dist: xenial
 
 sudo: true
-
-addons:
-  apt_packages:
-  - libcups2-dev
-
-services:
-- mysql
 
 install:
 - pip install --upgrade pip
@@ -21,7 +10,6 @@ install:
 
 before_script:
 - flake8 mempass
-- mysql -e 'create database edc character set utf8;'
 
 script:
 - coverage run -m tox
