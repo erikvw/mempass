@@ -1,6 +1,10 @@
-from unittest.case import TestCase
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
 
-from mempass import main, usage, PasswordGenerator
+from mempass.command_line import main
+from mempass.password_generator import PasswordGenerator, mkpassword
+from unittest import mock
+from unittest.case import TestCase
 
 
 class TestUser(TestCase):
@@ -18,11 +22,10 @@ class TestUser(TestCase):
         pwgen.get_password()
         self.assertIn("Strong", pwgen.results.get("score"))
 
-    def test_make_password_main(self):
-        self.assertEqual(main(["mkpassword.py", 4]), 0)
+    def test_make_password_words(self):
+        password = mkpassword(4)
+        self.assertEqual(len(password.split(" ")), 4)
 
-    def test_make_password_main2(self):
-        self.assertEqual(main(["mkpassword.py", 0]), 0)
-
-    def test_make_password_usage(self):
-        self.assertTrue(usage("mkpassword.py"))
+    def test_basic(self):
+        with mock.patch("sys.argv", ["mempass", 4]):
+            main()

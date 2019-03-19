@@ -1,8 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-"""Generate a random, memorizable password: http://xkcd.com/936/
-
-Adapted from https://github.com/jesterpm/bin/blob/master/mkpasswd
+"""Adapted from https://github.com/jesterpm/bin/blob/master/mkpasswd
 """
 
 import itertools
@@ -10,7 +8,9 @@ import os
 import sys
 
 from secrets import choice
+from warnings import warn
 from zxcvbn import zxcvbn
+
 
 strength_score = {
     0: "Very weak (0 out of 4)",
@@ -56,34 +56,17 @@ class PasswordGenerator:
         ]
 
 
-def main(argv):
-    try:
-        nwords = int(argv[1])
-    except IndexError:
-        return usage(argv[0])
+def mkpassword(nwords, verbose=None):
     pwgen = PasswordGenerator(nwords=nwords)
     password = pwgen.get_password()
-    score = pwgen.results.get("score")
-    warning = pwgen.results.get("warning")
-    suggestions = pwgen.results.get("suggestions")
-    p = sys.stderr.write
-    p(f"password: {password}\n")
-    p(f"score: {score}\n")
-    if warning:
-        p(f"Warning: {warning}\n")
-    if suggestions:
-        p(f"{suggestions}\n")
-    return 0
-
-
-def usage(argv0):
-    p = sys.stderr.write
-    p("Usage: %s nwords [nbits]\n" % argv0)
-    p("Generates a password of nwords words")
-    p("\nRecommended:\n")
-    p("    %s 5\n" % argv0)
-    return 1
-
-
-if __name__ == "__main__":
-    sys.exit(main(sys.argv))
+    if verbose:
+        p = sys.stderr.write
+        p(f"password: {password}\n")
+        p(f"score: {pwgen.results.get('score')}\n")
+        warning = pwgen.results.get("warning")
+        suggestions = pwgen.results.get("suggestions")
+        if warning:
+            warn(f"Warning: {warning}\n")
+        if suggestions:
+            p(f"{suggestions}\n")
+    return password
